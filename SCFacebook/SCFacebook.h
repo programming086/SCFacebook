@@ -23,6 +23,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+// Modified by Brovko Roman for Facebook iOS SDK 4.8.0 and Graph API Version v2.5
+
 #import <Foundation/Foundation.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
@@ -68,7 +70,7 @@ typedef NS_ENUM(NSInteger, FBAlbumPrivacyType) {
  *  email - Access to a person's primary email address.
  *  user_likes - Access to the list of things a person likes.
  *
- *  https://developers.facebook.com/docs/facebook-login/permissions/v2.4
+ *  https://developers.facebook.com/docs/facebook-login/permissions/
  *
  *  @param permissions
  */
@@ -125,13 +127,14 @@ typedef NS_ENUM(NSInteger, FBAlbumPrivacyType) {
  *  This will only return any friends who have used (via Facebook Login) the app making the request.
  *  If a friend of the person declines the user_friends permission, that friend will not show up in the friend list for this person.
  *
- *  https://developers.facebook.com/docs/graph-api/reference/v2.4/user/friends/
+ *  https://developers.facebook.com/docs/graph-api/reference/v2.5/user/friends
  *
  *  Permissions required: user_friends
  *
+ *  @param fields   fields example: id, name, email, birthday, about, picture
  *  @param callBack (BOOL success, id result)
  */
-+ (void)getUserFriendsCallBack:(SCFacebookCallback)callBack;
++ (void)getUserFriendsFields:(NSString *)fields callBack:(SCFacebookCallback)callBack;
 
 /**
  *  Post in the user profile with link and caption

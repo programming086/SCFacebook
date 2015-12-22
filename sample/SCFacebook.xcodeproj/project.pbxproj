@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		187FE8366B4C78AC9A486EAB /* Pods_SCFacebook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 036D6D5B0E1F7EEE26AC4D46 /* Pods_SCFacebook.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		187FE8366B4C78AC9A486EAB /* Pods_SCFacebook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 036D6D5B0E1F7EEE26AC4D46 /* Pods_SCFacebook.framework */; };
 		4DF43AC7147EBFB500A7D104 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DF43AC6147EBFB500A7D104 /* QuartzCore.framework */; };
 		A006C4771BB1B44500F8F728 /* SCFacebook.m in Sources */ = {isa = PBXBuildFile; fileRef = A006C4751BB1B44500F8F728 /* SCFacebook.m */; settings = {ASSET_TAGS = (); }; };
 		A006F5841BB198290024416F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A006F5821BB198290024416F /* AppDelegate.m */; settings = {ASSET_TAGS = (); }; };

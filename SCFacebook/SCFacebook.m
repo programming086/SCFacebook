@@ -23,6 +23,8 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
+// Modified by Brovko Roman for Facebook iOS SDK 4.8.0 and Graph API Version v2.5
+
 #import "SCFacebook.h"
 
 @interface SCFacebook() <FBSDKAppInviteDialogDelegate, FBSDKSharingDelegate>
@@ -104,7 +106,7 @@
 }
 
 
-- (void)getUserFriendsCallBack:(SCFacebookCallback)callBack
+- (void)getUserFriendsFields:(NSString *)fields callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
         callBack(NO, @"Not logged in");
@@ -112,7 +114,7 @@
     }
     
     if ([[FBSDKAccessToken currentAccessToken] hasGranted:(@"user_friends")]) {
-        [self graphFacebookForMethodGET:@"me/friends" params:nil callBack:callBack];
+        [self graphFacebookForMethodGET:@"me/friends" params:@{@"fields" : fields} callBack:callBack];
     } else {
         
         self.loginManager.loginBehavior = FBSDKLoginBehaviorSystemAccount;
@@ -730,9 +732,9 @@
     [[SCFacebook shared] getUserFields:fields callBack:callBack];
 }
 
-+ (void)getUserFriendsCallBack:(SCFacebookCallback)callBack
++ (void)getUserFriendsFields:(NSString *)fields callBack:(SCFacebookCallback)callBack
 {
-    [[SCFacebook shared] getUserFriendsCallBack:callBack];
+    [[SCFacebook shared] getUserFriendsFields:fields callBack:callBack];
 }
 
 + (void)feedPostWithLinkPath:(NSString *)url caption:(NSString *)caption callBack:(SCFacebookCallback)callBack

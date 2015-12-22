@@ -157,7 +157,9 @@
 {
     loadingView.hidden = NO;
     
-    [SCFacebook getUserFriendsCallBack:^(BOOL success, id result) {
+    NSString *fields = @"id, name, email, birthday, about, picture";
+    
+    [SCFacebook getUserFriendsFields:fields callBack:^(BOOL success, id result) {
         loadingView.hidden = YES;
         if (success) {
             

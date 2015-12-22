@@ -68,14 +68,16 @@
     [self.loginManager logInWithReadPermissions: self.readPermissions
                              fromViewController: nil
                                         handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+                                            if (!callBack) {
+                                                return;
+                                            }
+                                            
                                             if (error) {
                                                 callBack(NO, error.localizedDescription);
                                             } else if (result.isCancelled) {
                                                 callBack(NO, @"Cancelled");
                                             } else {
-                                                if(callBack){
-                                                    callBack(!error, result);
-                                                }
+                                                callBack(!error, result);
                                             }
                                         }];
 }
@@ -92,13 +94,17 @@
         [cookies deleteCookie:cookie];
     }
     
-    callBack(YES, @"Logout successfully");
+    if (callBack) {
+        callBack(YES, @"Logout successfully");
+    }
 }
 
 - (void)getUserFields:(NSString *)fields callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
@@ -109,7 +115,9 @@
 - (void)getUserFriendsFields:(NSString *)fields callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
@@ -120,9 +128,13 @@
         self.loginManager.loginBehavior = FBSDKLoginBehaviorSystemAccount;
         [self.loginManager logInWithPublishPermissions:self.publishPermissions fromViewController:nil handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
             if (error) {
-                callBack(NO, error.localizedDescription);
+                if (callBack) {
+                    callBack(NO, error.localizedDescription);
+                }
             } else if (result.isCancelled) {
-                callBack(NO, @"Cancelled");
+                if (callBack) {
+                    callBack(NO, @"Cancelled");
+                }
             } else {
                 [self graphFacebookForMethodGET:@"me/friends" params:nil callBack:callBack];
             }
@@ -133,7 +145,9 @@
 - (void)feedPostWithLinkPath:(NSString *)url caption:(NSString *)caption message:(NSString *)message photo:(UIImage *)photo video:(NSData *)videoData callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
@@ -161,7 +175,9 @@
             graphPath = @"me/videos";
             
             if (videoData == nil) {
-                callBack(NO, @"Not logged in");
+                if (callBack) {
+                    callBack(NO, @"Not logged in");
+                }
                 return;
             }
             
@@ -181,7 +197,9 @@
 - (void)myFeedCallBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
@@ -191,7 +209,9 @@
 - (void)inviteFriendsWithAppLinkURL:(NSURL *)url previewImageURL:(NSURL *)preview callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
@@ -212,7 +232,9 @@
 - (void)getPagesCallBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
@@ -223,9 +245,13 @@
         self.loginManager.loginBehavior = FBSDKLoginBehaviorSystemAccount;
         [self.loginManager logInWithPublishPermissions:self.publishPermissions fromViewController:nil handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
             if (error) {
-                callBack(NO, error.localizedDescription);
+                if (callBack) {
+                    callBack(NO, error.localizedDescription);
+                }
             } else if (result.isCancelled) {
-                callBack(NO, @"Cancelled");
+                if (callBack) {
+                    callBack(NO, @"Cancelled");
+                }
             } else {
                 [self graphFacebookForMethodGET:@"me/accounts" params:nil callBack:callBack];
             }
@@ -237,12 +263,16 @@
 - (void)getPageById:(NSString *)pageId callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
     if (!pageId) {
-        callBack(NO, @"Page id or name required");
+        if (callBack) {
+            callBack(NO, @"Page id or name required");
+        }
         return;
     }
     
@@ -252,12 +282,16 @@
 - (void)feedPostForPage:(NSString *)page message:(NSString *)message callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
     if (!page) {
-        callBack(NO, @"Page id or name required");
+        if (callBack) {
+            callBack(NO, @"Page id or name required");
+        }
         return;
     }
     
@@ -268,12 +302,16 @@
 {
     
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
     if (!page) {
-        callBack(NO, @"Page id or name required");
+        if (callBack) {
+            callBack(NO, @"Page id or name required");
+        }
         return;
     }
     
@@ -283,12 +321,16 @@
 - (void)feedPostForPage:(NSString *)page message:(NSString *)message link:(NSString *)url callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
     if (!page) {
-        callBack(NO, @"Page id or name required");
+        if (callBack) {
+            callBack(NO, @"Page id or name required");
+        }
         return;
     }
     
@@ -298,12 +340,16 @@
 - (void)feedPostForPage:(NSString *)page video:(NSData *)videoData title:(NSString *)title description:(NSString *)description callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
     if (!page) {
-        callBack(NO, @"Page id or name required");
+        if (callBack) {
+            callBack(NO, @"Page id or name required");
+        }
         return;
     }
     
@@ -317,7 +363,9 @@
 {
     
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
@@ -336,7 +384,9 @@
             }
             
             if (!dicPageAdmin) {
-                callBack(NO, @"Page not found!");
+                if (callBack) {
+                    callBack(NO, @"Page not found!");
+                }
                 return;
             }
             
@@ -346,6 +396,10 @@
                                           initWithGraphPath:[NSString stringWithFormat:@"%@/feed",dicPageAdmin[@"id"]] parameters:@{@"message" : message} HTTPMethod:@"POST"];
             
             [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+                if (!callBack) {
+                    return;
+                }
+                
                 if (error) {
                     callBack(NO, [error domain]);
                 }else{
@@ -360,7 +414,9 @@
 {
     
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
@@ -379,7 +435,9 @@
             }
             
             if (!dicPageAdmin) {
-                callBack(NO, @"Page not found!");
+                if (callBack) {
+                    callBack(NO, @"Page not found!");
+                }
                 return;
             }
             
@@ -395,6 +453,10 @@
                                           HTTPMethod:@"POST"];
             
             [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+                if (!callBack) {
+                    return;
+                }
+                
                 if (error) {
                     callBack(NO, [error domain]);
                 }else{
@@ -408,7 +470,9 @@
 - (void)feedPostAdminForPageName:(NSString *)page message:(NSString *)message link:(NSString *)url callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
@@ -427,7 +491,9 @@
             }
             
             if (!dicPageAdmin) {
-                callBack(NO, @"Page not found!");
+                if (callBack) {
+                    callBack(NO, @"Page not found!");
+                }
                 return;
             }
             
@@ -441,6 +507,10 @@
                                           HTTPMethod:@"POST"];
             
             [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+                if (!callBack) {
+                    return;
+                }
+
                 if (error) {
                     callBack(NO, [error domain]);
                 }else{
@@ -455,7 +525,9 @@
 {
     
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
@@ -474,7 +546,9 @@
             }
             
             if (!dicPageAdmin) {
-                callBack(NO, @"Page not found!");
+                if (callBack) {
+                    callBack(NO, @"Page not found!");
+                }
                 return;
             }
             
@@ -484,10 +558,15 @@
                                           parameters:@{
                                                        @"message" : message,
                                                        @"source" : UIImagePNGRepresentation(photo),
-                                                       @"access_token" : dicPageAdmin[@"access_token"]                                                       }
+                                                       @"access_token" : dicPageAdmin[@"access_token"]
+                                                       }
                                           HTTPMethod:@"POST"];
             
             [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+                if (!callBack) {
+                    return;
+                }
+                
                 if (error) {
                     callBack(NO, [error domain]);
                 }else{
@@ -501,7 +580,9 @@
 - (void)getAlbumsCallBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
@@ -511,12 +592,16 @@
 - (void)getAlbumById:(NSString *)albumId callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
     if (!albumId) {
-        callBack(NO, @"Album id required");
+        if (callBack) {
+            callBack(NO, @"Album id required");
+        }
         return;
     }
     
@@ -526,12 +611,16 @@
 - (void)getPhotosAlbumById:(NSString *)albumId callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
     if (!albumId) {
-        callBack(NO, @"Album id required");
+        if (callBack) {
+            callBack(NO, @"Album id required");
+        }
         return;
     }
     
@@ -541,12 +630,16 @@
 - (void)createAlbumName:(NSString *)name message:(NSString *)message privacy:(FBAlbumPrivacyType)privacy callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
     if (!name && !message) {
-        callBack(NO, @"Name and message required");
+        if (callBack) {
+            callBack(NO, @"Name and message required");
+        }
         return;
     }
     
@@ -577,12 +670,16 @@
 - (void)feedPostForAlbumId:(NSString *)albumId photo:(UIImage *)photo callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
     if (!albumId) {
-        callBack(NO, @"Album id required");
+        if (callBack) {
+            callBack(NO, @"Album id required");
+        }
         return;
     }
     
@@ -592,7 +689,9 @@
 - (void)sendForPostOpenGraphWithActionType:(NSString *)actionType graphObject:(FBSDKShareOpenGraphObject *)openGraphObject objectName:(NSString *)objectName viewController:(UIViewController *)viewController callBack:(SCFacebookCallback)callBack
 {
     if (![self isSessionValid]) {
-        callBack(NO, @"Not logged in");
+        if (callBack) {
+            callBack(NO, @"Not logged in");
+        }
         return;
     }
     
@@ -626,6 +725,10 @@
                                        parameters:params
                                        HTTPMethod:httpMethod]
      startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+         if (callBack) {
+             return;
+         }
+         
          if ([error.userInfo[FBSDKGraphRequestErrorGraphErrorCode] isEqual:@200]) {
              callBack(NO, error);
          } else {

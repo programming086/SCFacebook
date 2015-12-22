@@ -725,7 +725,7 @@
                                        parameters:params
                                        HTTPMethod:httpMethod]
      startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-         if (callBack) {
+         if (!callBack) {
              return;
          }
          
